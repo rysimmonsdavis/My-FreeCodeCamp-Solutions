@@ -48,7 +48,6 @@ function sym(...args) {
     };
   
     argsSymDiff.sort();
-    console.log(argsSymDiff);
   
     return argsSymDiff;
   };
