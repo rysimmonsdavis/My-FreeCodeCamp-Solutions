@@ -6,25 +6,28 @@ For the purpose of this exercise, you should also capitalize connecting words li
 */
 
 function titleCase(str) {
-    let spacePrev = true;
+  str = " " + str;
+  let newStr = ""
+
+    for (let i = 1; i < str.length; i++){
+
+      if (str[i - 1].match(/ /) && str[i].match(/[a-z]/)){
+
+        newStr += str[i].toUpperCase();
+
+      } else if (!str[i - 1].match(/ /) && str[i].match(/[A-Z]/)){
+
+        newStr += str[i].toLowerCase();
+
+      } else {
+        newStr += str[i];
+      }
   
-    for (let i = 0; i < str.length; i++){
-  
-      if (spacePrev == true && str[i].match(/[a-z]/)){
-        str[i].toUpperCase();
-        spacePrev = false;
-      };
-  
-      if (spacePrev == false && str[i].match(/[A-Z]/)){
-        str[i].toLowerCase();
-      };
-  
-      if (str[i].match(/ /)){
-        spacePrev = true;
-      };
-  
-    }
-    return str;
-  }
+    };
+
+    return newStr;
+
+
+  };
   
   titleCase("I'm a little tea pot");
