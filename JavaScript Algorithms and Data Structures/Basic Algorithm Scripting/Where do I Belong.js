@@ -47,7 +47,7 @@ function getIndexToIns(arr, num) {
 
   function sortArr(arr){
 
-    if (arr == []){return arr;} 
+    if (arr.length == 0 || arr.length == 1){return arr;} 
     
     else {
 
@@ -87,4 +87,4 @@ function getIndexToIns(arr, num) {
   };
   };
   
-  console.log(getIndexToIns([], 35));
+  console.log(getIndexToIns([44, 15, 0, 1, 100], 35));
