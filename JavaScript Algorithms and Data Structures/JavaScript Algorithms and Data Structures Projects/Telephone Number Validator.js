@@ -73,50 +73,92 @@ telephoneCheck("11 555-555-5555") should return false.
 
 //main function
 function telephoneCheck(str) {
-    let isValid = true;
 
+    let digsNum = numDigs(str);
     let frstDigLoc = locFrstDig(str);
-    let digsNum = numDigs(str, isValid, frstDigLoc);
+
+    if (digsNum < 10 || digsNum > 11){
+        return false;
+    }
 
     if (str[frstDigLoc] == 0){
-        isValid = false;
-    };
-
-    if (str[frstDigLoc] == 1 && digsNum ){
-        isValid = false;
-    };
-
-
-
+        return false;
+    } 
     
-  
-    return isValid;
+    if (str[frstDigLoc] == 1 && digsNum != 11){
+        return false;
+    }
+
+    if (str[frstDigLoc] != 1 && digsNum == 11){
+        return false;
+    }
+
+    if (hasBadChars(str)){
+        return false;
+    }
+
+    if (str.match(/\(\d\d\d\d/) || str.match(/\(\d\d\d-/) || str.match(/\d\d\d\d\)/)){
+        return false;
+    }
+
+    if (str.match(/\d\d\d-\d\d\d-\d\d\d\d/)
+    || str.match(/1 \d\d\d-\d\d\d-\d\d\d\d/)
+    || str.match(/1 \(\d\d\d\) \d\d\d-\d\d\d\d/)
+    || str.match(/\d\d\d\d\d\d\d\d\d\d/)
+    || str.match(/\(\d\d\d\)\d\d\d-\d\d\d\d/)
+    || str.match(/1\(\d\d\d\)\d\d\d-\d\d\d\d/)
+    || str.match(/1 \d\d\d \d\d\d \d\d\d\d/))
+    {
+        return true;
+    } else {
+      return false;
+    }
+
 };
   
 // function returns location of first digit
 function locFrstDig(str){
+
     let frstDigLoc = -1;
 
-    for (let i = 0; isValid == true && frstDigFound == false && i < str.length; i++){
+    for (let i = 0; frstDigLoc < 0 && i < str.length; i++){
         if (str[i].match(/[0-9]/)){
             frstDigLoc = i;
-            return frstDigLoc;
-        };
-    };
+        }
+    }
 
-
+    return frstDigLoc;
 };
 
 // function returns number of digits
-function numDigs(str, isValid){
+function numDigs(str){
 
-    let numDigs = 0;
+    let digsNum = 0;
     
-    for (let i = 0; isValid == true && i < str.length; i++){
+    for (let i = 0; i < str.length; i++){
         if (str[i].match(/[0-9]/)){
-            numDigs++;
-        };
-    };
+            digsNum++;
+        }
+    }
+
+    return digsNum;
 };
-  
-telephoneCheck("555-555-5555");
+
+// function returns if characters other than digits, parentheses, spaces or dashes are included
+function hasBadChars(str){
+    if (!str[0].match(/[0-9]|\(/)){
+        return true;
+    }
+
+    for (let i = 1; i < str.length; i++){
+        
+        if (!str[i].match(/[0-9]|\-| |\(|\)/)){
+            
+            return true;
+        }
+    }
+
+    return false;
+}
+
+console.log(telephoneCheck("555-555-5555"));
