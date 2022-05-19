@@ -38,8 +38,25 @@ See below for an example of a cash-in-drawer array:
 */
 
 function checkCashRegister(price, cash, cid) {
-    let change;
-    return change;
+    let change = cash - price;
+    let statusChange = {status: "", change: []};
+    let INSUFFICIENT_FUNDS = "INSUFFICIENT_FUNDS";
+    let CLOSED = "CLOSED";
+    let OPEN = "OPEN";
+
+
+
+
+
+
+    return statusChange;
+  }
+
+  //calculate total change in drawar
+  function totalChange(cid){
+      for (let i = 0; i < cid.length; i++){
+          
+      }
   }
   
   checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
