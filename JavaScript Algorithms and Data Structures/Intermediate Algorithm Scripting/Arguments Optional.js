@@ -12,8 +12,24 @@ sumTwoAnd(3) returns 5.
 If either argument isn't a valid number, return undefined.
 */
 
-function addTogether() {
-    return false;
+function addTogether(...args) {
+    if (args.length == 2 && Number.isFinite(args[0]) && Number.isFinite(args[1]) ){
+      return args[0] + args[1];
+    } else if (args.length == 1 && Number.isFinite(args[0]) ){
+      return function (arg) {
+        if (Number.isFinite(arg)){
+          return args[0] + arg;
+        } else {
+          return undefined
+        }
+      }
+    } else {
+      return undefined;
+    }
   }
   
-  addTogether(2,3);
+  console.log(addTogether(1)(1));
+
+  console.log(addTogether(1,1));
+
+  console.log(addTogether(2)([3]));
