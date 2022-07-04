@@ -32,4 +32,4 @@ function addTogether(...args) {
 
   console.log(addTogether(1,1));
 
-  console.log(addTogether(2)([3]));
+  console.log(addTogether(1)([1]));
