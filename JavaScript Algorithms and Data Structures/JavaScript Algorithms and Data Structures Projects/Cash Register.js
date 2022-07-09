@@ -37,26 +37,93 @@ See below for an example of a cash-in-drawer array:
 ]
 */
 
+
+
+
 function checkCashRegister(price, cash, cid) {
-    let change = cash - price;
-    let statusChange = {status: "", change: []};
-    let INSUFFICIENT_FUNDS = "INSUFFICIENT_FUNDS";
-    let CLOSED = "CLOSED";
-    let OPEN = "OPEN";
+
+  //calculate price and cash difference
+  let priceCashDifference = priceCashDifference(price, cash);
+
+  //get sorted cid
+  let sortedCid = sortedCid(cid);
+
+  //calculate and return status change
+  return statusChange(priceCashDifference, sortedCid);
+
+}
+
+
+//calculate price and cash difference
+function priceCashDifference(price, cash){
+  return cash - price;
+}
 
 
 
+//get sorted cid
+function sortedCid(cid) {
+
+  let sortedCid = [];
+
+  
+
+  return sortedCid;
+}
 
 
 
-    return statusChange;
+//calculate status change
+function statusChange(priceCashDifference, cid){
+
+  // "INSUFFICIENT_FUNDS" "CLOSED" "OPEN";
+
+  //create object to be returned 
+  let statusChange = {status: "", change: []};
+
+  //calculate change 
+
+
+
+  return statusChange;
+}
+
+
+//calculate total change in drawar
+function totalCID(cid){
+
+  let totalCID = 0;
+
+  for (let i = 0; i < cid.length; i++){
+    totalCID += cid[i][1];
   }
 
-  //calculate total change in drawar
-  function totalChange(cid){
-      for (let i = 0; i < cid.length; i++){
-          
-      }
-  }
+  return totalCID
+}
+
+
+/*
+        switch (cid[i][0]) {
+          case "PENNY":       ;
+            totalChange +=    0.01;
+          case "NICKEL":      ;
+            totalChange +=    0.05;
+          case "DIME":        ;
+            totalChange +=    0.1;
+          case "QUARTER":     ;
+            totalChange +=    0.25;
+          case "ONE":         ;
+            totalChange +=    1.0;
+          case "FIVE":        ;
+            totalChange +=    5.0;
+          case "TEN":         ;
+            totalChange +=    10.0;
+          case "TWENTY":      ;
+            totalChange +=    20.0;
+          case "ONE HUNDRED": ;
+            totalChange +=    100.0;
+        }
+*/
+
   
   checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
