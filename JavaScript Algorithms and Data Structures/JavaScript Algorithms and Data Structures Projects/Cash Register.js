@@ -38,119 +38,84 @@ See below for an example of a cash-in-drawer array:
 */
 
 
-
-
 function checkCashRegister(price, cash, cid) {
 
-  //calculate price and cash difference
-  let priceCashDifference = priceCashDifference(price, cash);
+  let change = [["PENNY", 0.0], ["NICKEL", 0.0], ["DIME", 0.0], ["QUARTER", 0.0], ["ONE", 0.0], ["FIVE", 0.0], ["TEN", 0.0], ["TWENTY", 0.0], ["ONE HUNDRED", 0.0]];
 
-  //get sorted cid
-  //let sortedCid = sortedCid(cid);
-
-  //calculate and return status change
-  return statusChange(priceCashDifference, cid);
-
-}
-
-
-//calculate price and cash difference
-function priceCashDifference(price, cash){
-  return cash - price;
-}
-
-
-
-//get sorted cid
-/*
-function sortedCid(cid) {
-
-  let sortedCid = [];
-
+  let remainingChangeDue = cash - price;
   
-
-  return sortedCid;
-}
-*/
-
-
-//calculate status change
-function statusChange(priceCashDifference, cid){
-
-  // "INSUFFICIENT_FUNDS" "CLOSED" "OPEN";
-
-  //create object to be returned 
-  let statusChange = {status: "", change: []};
-
-  //create changing price cash difference variable
-  let remainingPriceCashDifference = priceCashDifference;
-
-  let change = [["PENNY", 0.0], ["NICKEL", 0.0], ["DIME", 0.0], ["QUARTER", 0.0], ["ONE", 0.0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]];
-
-  //calculate change 
   for(let i = (cid.length - 1); i >= 0; i--){
-
+    
     let denominationName = cid[i][0];
-    let denominationRemainingSum = cid[i][1];
-    let denominationTotalChangeDue = 0;
+    let remainingDenominationSum = cid[i][1];
+
+    let totalDenominationChangeDue = 0;
 
     switch (denominationName) {
       case "ONE HUNDRED":
-
-          var denominationUnitAmount = 100.0;
-          
-          while (remainingPriceCashDifference > denominationUnitAmount && denominationRemainingSum > 0){
-            remainingPriceCashDifference -= denominationUnitAmount;
-            denominationRemainingSum -= denominationUnitAmount;
-            
-            denominationTotalChangeDue += denominationUnitAmount;
-          }
-
-          cid[i][1] -= denominationTotalChangeDue;
-          change[i][1] += denominationTotalChangeDue;
-
+        var denominationUnitAmount = 100.0;
+        calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn();
+        break;
       case "TWENTY":
         var denominationUnitAmount = 20.0;
+        calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn();
+        break;
       case "TEN":
         var denominationUnitAmount = 10.0;
+        calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn();
+        break;
       case "FIVE":
         var denominationUnitAmount = 5.0;
+        calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn();
+        break;
       case "ONE":
-        var denominationUnitAmount = 1.0 ;
+        var denominationUnitAmount = 1.0;
+        calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn();
+        break;
       case "QUARTER":
         var denominationUnitAmount = 0.25;
+        calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn();
+        break;
       case "DIME":
         var denominationUnitAmount = 0.1;
+        calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn();
+        break;
       case "NICKEL":
         var denominationUnitAmount = 0.05;
+        calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn();
+        break;
       case "PENNY":       
         var denominationUnitAmount = 0.01;
+        calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn();
+        break;
+    }
+
+    function calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn(){
+      console.log(remainingChangeDue)
+
+      while (Math.round(remainingChangeDue * 100) / 100 >= denominationUnitAmount && remainingDenominationSum > 0){
+        remainingChangeDue -= denominationUnitAmount;
+        remainingDenominationSum -= denominationUnitAmount;
+        totalDenominationChangeDue += denominationUnitAmount;
+      }
+      cid[i][1] -= Math.round(totalDenominationChangeDue  * 100) / 100;
+      change[i][1] = Math.round(totalDenominationChangeDue  * 100) / 100;
     }
   }
 
   let remainingCidSum = 0;
-  for( let i = 0; i < newCid.length; i++){
-      remainingCidSum += cid[i][1];
-    }
-  
-
-  return statusChange;
-}
-
-
-//calculate total change in drawar
-function cidSum(cid){
-
-  let cidSum = 0;
-
-  for (let i = 0; i < cid.length; i++){
-    cidSum += cid[i][1];
+  for(let i = 0; i < cid.length; i++){
+    remainingCidSum += cid[i][1]
   }
 
-  return cidSum
+  if(remainingChangeDue > 0){
+    return {status: "INSUFFICIENT_FUNDS", change: []};
+  } else if(remainingCidSum == 0){
+    return {status: "CLOSED", change: change};
+  } else {
+    return {status: "OPEN", change: change};
+  }
 }
 
-
-
   
-  checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+  console.log(checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]));
