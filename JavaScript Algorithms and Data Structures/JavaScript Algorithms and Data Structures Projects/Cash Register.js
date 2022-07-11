@@ -40,7 +40,7 @@ See below for an example of a cash-in-drawer array:
 
 function checkCashRegister(price, cash, cid) {
 
-  let change = [["PENNY", 0.0], ["NICKEL", 0.0], ["DIME", 0.0], ["QUARTER", 0.0], ["ONE", 0.0], ["FIVE", 0.0], ["TEN", 0.0], ["TWENTY", 0.0], ["ONE HUNDRED", 0.0]];
+  let newCid = [["PENNY", 0.0], ["NICKEL", 0.0], ["DIME", 0.0], ["QUARTER", 0.0], ["ONE", 0.0], ["FIVE", 0.0], ["TEN", 0.0], ["TWENTY", 0.0], ["ONE HUNDRED", 0.0]];
 
   let remainingChangeDue = cash - price;
   
@@ -91,7 +91,6 @@ function checkCashRegister(price, cash, cid) {
     }
 
     function calculateTotalDenominationChangeDueAndRemoveFromCidAndAddToChangeToReturn(){
-      console.log(remainingChangeDue)
 
       while (Math.round(remainingChangeDue * 100) / 100 >= denominationUnitAmount && remainingDenominationSum > 0){
         remainingChangeDue -= denominationUnitAmount;
@@ -99,7 +98,7 @@ function checkCashRegister(price, cash, cid) {
         totalDenominationChangeDue += denominationUnitAmount;
       }
       cid[i][1] -= Math.round(totalDenominationChangeDue  * 100) / 100;
-      change[i][1] = Math.round(totalDenominationChangeDue  * 100) / 100;
+      newCid[i][1] = Math.round(totalDenominationChangeDue  * 100) / 100;
     }
   }
 
@@ -111,8 +110,14 @@ function checkCashRegister(price, cash, cid) {
   if(remainingChangeDue > 0){
     return {status: "INSUFFICIENT_FUNDS", change: []};
   } else if(remainingCidSum == 0){
-    return {status: "CLOSED", change: change};
+    return {status: "CLOSED", change: newCid};
   } else {
+    let change = [];
+    for(let i = (newCid.length - 1); i >= 0; i--){
+      if(newCid[i][1] != 0){
+        change.push(newCid[i]);
+      }
+    }
     return {status: "OPEN", change: change};
   }
 }
